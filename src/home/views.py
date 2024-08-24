@@ -11,5 +11,11 @@ def home_page_view(request, *args, **kwargs ):
         "title" : "Hello finan",
         "page_visit_count": queryset.count() 
     }
-
+    
     return render(request, 'home.html', context=context)
+
+def about_view(request):
+    context = {
+        "title" : "About page",
+    }
+    return render(request, 'about.html',context )
