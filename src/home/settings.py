@@ -25,7 +25,7 @@ SECRET_KEY = config("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG =str(os.environ.get("DJANGO_DEBUG")).lower() == "true" or False
 DEBUG =config("DJANGO_DEBUG", cast=bool)
-print(DEBUG, type(DEBUG))
+# print(DEBUG, type(DEBUG))
 
 ALLOWED_HOSTS = [
     ".railway.app", # https://saas;prod.railway.app
@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # my apps
     'visits',
-    
+
 ]
 
 MIDDLEWARE = [
@@ -82,7 +82,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'home.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -93,6 +92,17 @@ DATABASES = {
     }
 }
 
+DATABSE_URL = config("DATABSE_URL", cast=str)
+CONN_MAX_AGE = config("CONN_MAX_AGE", cast=int, default=30)
+
+if DATABSE_URL is not None:
+    import dj_database_url
+    DATABASES = {
+    'default': dj_database_url.config(
+        default=DATABSE_URL,
+        conn_max_age=30,
+        conn_health_checks=True)
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
